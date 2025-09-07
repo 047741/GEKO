@@ -111,7 +111,7 @@ services:
       - JWT_EXPIRATION=28800
       - NODE_OPTIONS=--max-old-space-size=8096
       - APP__PORT=8080
-      - APP__BASE_URL=http://localhost:8080
+      - APP__BASE_URL=http://opencti:8080
       - APP__ADMIN__EMAIL=${OPENCTI_ADMIN_EMAIL}
       - APP__ADMIN__PASSWORD=${OPENCTI_ADMIN_PASSWORD}
       - APP__ADMIN__TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -149,7 +149,7 @@ services:
   worker:
     image: opencti/worker:${CONNECTOR_VERSION}
     environment:
-      - OPENCTI_URL=http://localhost:8080
+      - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - WORKER_LOG_LEVEL=info
     depends_on:
@@ -167,7 +167,7 @@ services:
   connector-export-stix:
     image: opencti/connector-export-file-stix:${CONNECTOR_VERSION}
     environment:
-      - OPENCTI_URL=http://localhost:8080
+      - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=4c20cc0f-bbc5-4417-9312-8b075edd90e8
       - CONNECTOR_NAME=Export Stix
@@ -184,7 +184,7 @@ services:
   connector-import-stix:
     image: opencti/connector-import-file-stix:${CONNECTOR_VERSION}
     environment:
-      - OPENCTI_URL=http://localhost:8080
+      - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_IMPORT_FILE_STIX_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_IMPORT_FILE
@@ -203,7 +203,7 @@ services:
   connector-analysis:
     image: opencti/connector-import-document:${CONNECTOR_VERSION}
     environment:
-      - OPENCTI_URL=http://localhost:8080
+      - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_ANALYSIS_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_ANALYSIS
@@ -222,7 +222,7 @@ services:
     image: opencti/connector-mitre:${CONNECTOR_VERSION}
     privileged: true
     environment:
-      - OPENCTI_URL=http://localhost:8080
+      - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${MITRE_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_MITRE_ID}
       - CONNECTOR_TYPE=EXTERNAL_IMPORT

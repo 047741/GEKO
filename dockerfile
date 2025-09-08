@@ -1,24 +1,24 @@
 FROM python:3.12.1-slim-bullseye
 
-ENV     VIRTUAL_ENV=/srv/dac/.venv \
-        PATH="/srv/dac/detection-rules.venv/bin:$PATH"
+ENV VIRTUAL_ENV=/srv/dac/.venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    zip \
-    unzip \
-    jq \
-    build-essential \
-    libffi-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    zlib1g-dev \
-    gcc \
-    bash \
-    && rm -rf /var/lib/apt/lists/*
+curl \
+git \
+zip \
+unzip \
+jq \
+build-essential \
+libffi-dev \
+libssl-dev \
+libxml2-dev \
+libxslt1-dev \
+zlib1g-dev \
+gcc \
+bash \
+&& rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 RUN mkdir /srv/dac
@@ -32,7 +32,6 @@ RUN git clone https://github.com/047741/GEKO.git
 
 # Create virtual environment and activate
 RUN python3.12 -m venv .venv
-RUN . .venv/bin/activate
 
 #Install dependancies
 RUN python3.12 -m pip install requests
@@ -53,6 +52,7 @@ RUN python3.12 -m pip install sigma-cli
 
 #Install the elasticsearch plugin
 RUN sigma plugin install elasticsearch
+RUN sigma plugin install windows
 
 #Set entrypoint to venv shell
 COPY entrypoint.sh /srv/dac/entrypoint.sh

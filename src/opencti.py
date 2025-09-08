@@ -96,6 +96,51 @@ def get_actor_details(OPENCTI_URL, OPENCTI_HEADERS, actor_name):
         intrusion_sets.append((actor_id, actor_name, actor_aliases))        
     return intrusion_sets
 
+def get_actor_campaigns(OPENCTI_URL, OPENCTI_HEADERS, actor_id):
+    """fetch system Campaigns"""
+    query = f"""
+    query GetActorCampaigns {{
+        stixCoreRelationships (
+        toId: "{actor_id}",
+        relationship_type: "attributed-to",
+        fromTypes: ["Campaign"]
+        ) {{
+            pageInfo {{ globalCount }}
+            edges {{
+                node {{
+                    from {{
+                        ... on Campaign {{
+                        id
+                        name
+                        }}
+                    }}
+                }}
+            }}
+        }}
+        }}
+    """
+    response = requests.post(OPENCTI_URL, headers=OPENCTI_HEADERS, json={"query": query}, verify=False)
+    if response.status_code != 200:
+        log_info(f"Failed to fetch actor campaigns: {response.text}")
+        return None
+    data = response.json()
+    if "data" not in data or "stixCoreRelationships" not in data["data"]:
+        log_info(f"No campaigns found for actor {actor_id}.")
+        return None
+    node_from = data["data"]["stixCoreRelationships"].get("edges", [])
+    campaigns = []
+    for edge in node_from:
+        node = edge.get("node", {})
+        from_node = node.get("from", {})
+        campaign_name = from_node.get("name")
+        campaign_id = from_node.get("id")
+        if campaign_name and campaign_id:
+            campaigns.append({
+                "id": campaign_id,
+                "name": campaign_name
+            })
+    return campaigns
+
 def get_actor_techniques(OPENCTI_URL, OPENCTI_HEADERS, actor_id):
     """Fetch techniques used by a specific actor."""
     query = f"""

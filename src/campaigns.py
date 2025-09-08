@@ -33,11 +33,9 @@ CyABS = os.getenv("CyABS").split(", ")
 
 TABLE_LENGTH = 10 # Number of rows to show in the table
 
-
 # ==============
 # Data processing
 # ==============
-
 
 # Create threat-reports/<YYYY-MM> relative to this script
 def ensure_threat_report_folder():

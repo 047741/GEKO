@@ -1,7 +1,7 @@
 # Ignore the .env file
 .env
 checklist.md
-Threat-Report/
+Threat-report/
 
 # Ignore Python bytecode files
 __pycache__/

@@ -42,7 +42,7 @@ TABLE_LENGTH = 10 # Number of rows to show in the table
 # Create threat-reports/<YYYY-MM> relative to this script
 def ensure_threat_report_folder():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    report_dir = os.path.join(base_dir, '..', 'Threat-Report', datetime.now().strftime("%Y-%m"))
+    report_dir = os.path.join(base_dir, '..', 'Threat-report', datetime.now().strftime("%Y-%m"))
     os.makedirs(report_dir, exist_ok=True)
     return os.path.abspath(report_dir)
 

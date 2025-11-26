@@ -18,6 +18,7 @@ libxslt1-dev \
 zlib1g-dev \
 gcc \
 bash \
+rsync \
 && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
